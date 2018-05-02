@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ulovecode.modules.dao.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.ulovecode.modules.entity.domain.Course">
+    <id column="course_id" jdbcType="INTEGER" property="courseId" />
+    <result column="cname" jdbcType="VARCHAR" property="cname" />
+    <result column="ctype" jdbcType="VARCHAR" property="ctype" />
+    <result column="credit" jdbcType="INTEGER" property="credit" />
+    <result column="times" jdbcType="INTEGER" property="times" />
+    <result column="stage" jdbcType="VARCHAR" property="stage" />
+    <result column="descript" jdbcType="VARCHAR" property="descript" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    course_id, cname, ctype, credit, times, stage, descript
+  </sql>
+  <select id="selectByExample" parameterType="com.ulovecode.modules.entity.domain.CourseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where course_id = #{courseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from course
+    where course_id = #{courseId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ulovecode.modules.entity.domain.CourseExample">
+    delete from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ulovecode.modules.entity.domain.Course">
+    insert into course (course_id, cname, ctype, 
+      credit, times, stage, 
+      descript)
+    values (#{courseId,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, #{ctype,jdbcType=VARCHAR}, 
+      #{credit,jdbcType=INTEGER}, #{times,jdbcType=INTEGER}, #{stage,jdbcType=VARCHAR}, 
+      #{descript,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ulovecode.modules.entity.domain.Course">
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="cname != null">
+        cname,
+      </if>
+      <if test="ctype != null">
+        ctype,
+      </if>
+      <if test="credit != null">
+        credit,
+      </if>
+      <if test="times != null">
+        times,
+      </if>
+      <if test="stage != null">
+        stage,
+      </if>
+      <if test="descript != null">
+        descript,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="cname != null">
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="ctype != null">
+        #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="credit != null">
+        #{credit,jdbcType=INTEGER},
+      </if>
+      <if test="times != null">
+        #{times,jdbcType=INTEGER},
+      </if>
+      <if test="stage != null">
+        #{stage,jdbcType=VARCHAR},
+      </if>
+      <if test="descript != null">
+        #{descript,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ulovecode.modules.entity.domain.CourseExample" resultType="java.lang.Integer">
+    select count(*) from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update course
+    <set>
+      <if test="record.courseId != null">
+        course_id = #{record.courseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cname != null">
+        cname = #{record.cname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctype != null">
+        ctype = #{record.ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.credit != null">
+        credit = #{record.credit,jdbcType=INTEGER},
+      </if>
+      <if test="record.times != null">
+        times = #{record.times,jdbcType=INTEGER},
+      </if>
+      <if test="record.stage != null">
+        stage = #{record.stage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.descript != null">
+        descript = #{record.descript,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update course
+    set course_id = #{record.courseId,jdbcType=INTEGER},
+      cname = #{record.cname,jdbcType=VARCHAR},
+      ctype = #{record.ctype,jdbcType=VARCHAR},
+      credit = #{record.credit,jdbcType=INTEGER},
+      times = #{record.times,jdbcType=INTEGER},
+      stage = #{record.stage,jdbcType=VARCHAR},
+      descript = #{record.descript,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ulovecode.modules.entity.domain.Course">
+    update course
+    <set>
+      <if test="cname != null">
+        cname = #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="ctype != null">
+        ctype = #{ctype,jdbcType=VARCHAR},
+      </if>
+      <if test="credit != null">
+        credit = #{credit,jdbcType=INTEGER},
+      </if>
+      <if test="times != null">
+        times = #{times,jdbcType=INTEGER},
+      </if>
+      <if test="stage != null">
+        stage = #{stage,jdbcType=VARCHAR},
+      </if>
+      <if test="descript != null">
+        descript = #{descript,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where course_id = #{courseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ulovecode.modules.entity.domain.Course">
+    update course
+    set cname = #{cname,jdbcType=VARCHAR},
+      ctype = #{ctype,jdbcType=VARCHAR},
+      credit = #{credit,jdbcType=INTEGER},
+      times = #{times,jdbcType=INTEGER},
+      stage = #{stage,jdbcType=VARCHAR},
+      descript = #{descript,jdbcType=VARCHAR}
+    where course_id = #{courseId,jdbcType=INTEGER}
+  </update>
+</mapper>
