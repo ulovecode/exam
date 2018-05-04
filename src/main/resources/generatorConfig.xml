@@ -40,7 +40,8 @@
         <!--<table tableName="paper_answer"></table>-->
         <!--<table tableName="paper_item"></table>-->
         <!--<table tableName="score"></table>-->
-        <table tableName="student"></table>
+        <!--<table tableName="student"></table>-->
         <!--<table tableName="user_info"></table>-->
+        <table tableName=""></table>
     </context>
 </generatorConfiguration>
