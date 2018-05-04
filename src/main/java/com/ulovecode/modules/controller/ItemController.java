@@ -20,7 +20,7 @@ public class ItemController {
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    ItemService itemService;
+    private ItemService itemService;
 
     @RequestMapping("/showlist")
     public Optional<List<Item>> showItem() {
@@ -29,43 +29,34 @@ public class ItemController {
 
     @RequestMapping("/delete/{itemId}")
     public R deleteItem(@PathVariable("itemId") Optional<Integer> itemId) {
-        try {
-            itemService.delete(Optional.of(itemId.get()));
-            log.info("删除试题号id为" + itemId.get());
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.debug("删除失败,试题号id为" + itemId.get() + "编号的试题");
+        if (!itemId.isPresent()) {
             return R.error("操作失败");
         }
+        itemService.delete(Optional.of(itemId.get()));
+        log.info("删除试题号id为" + itemId.get());
         return R.ok("操作成功");
     }
 
 
     @RequestMapping("/merge")
     public R saveOrUpdateItem(@RequestBody Optional<Item> itemForm) {
-        try {
-            itemService.saveOrUpdate(itemForm);
-            log.info("添加或修改试题号" + itemForm.get());
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.debug("添加或修改,试题为" + itemForm.get() + "的试题");
+        if (!itemForm.isPresent()) {
             return R.error("操作失败");
-        }
-        return R.ok("操作成功");
 
+        }
+        itemService.saveOrUpdate(itemForm);
+        log.info("添加或修改试题号" + itemForm.get());
+        return R.ok("操作成功");
     }
 
     @RequestMapping("/id/{itemId}")
     public R queryById(@PathVariable("itemId") Optional<Integer> itemId) {
-        try {
-            Optional<Item> Item = itemService.queryObject(Optional.of(itemId.get()));
-            log.info("查询到" + Item.get());
-            return R.ok("Item", Item.get());
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.debug("查询到失败,试题为" + itemId.get() + "的试题");
+        if (!itemId.isPresent()) {
             return R.error("操作失败");
         }
+        Optional<Item> Item = itemService.queryObject(Optional.of(itemId.get()));
+        log.info("查询到" + Item.get());
+        return R.ok("Item", Item.get());
     }
 
 

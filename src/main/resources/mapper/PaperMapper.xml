@@ -1,109 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ulovecode.modules.dao.PaperMapper">
-  <resultMap id="BaseResultMap" type="com.ulovecode.modules.entity.domain.Paper">
-    <id column="paper_id" jdbcType="INTEGER" property="paperId" />
-    <result column="course_id" jdbcType="INTEGER" property="courseId" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="grade" jdbcType="VARCHAR" property="grade" />
-    <result column="stage" jdbcType="VARCHAR" property="stage" />
-    <result column="testdate" jdbcType="DATE" property="testdate" />
-    <result column="pstatus" jdbcType="VARCHAR" property="pstatus" />
-    <result column="descript" jdbcType="VARCHAR" property="descript" />
-    <result column="papertime" jdbcType="TIMESTAMP" property="papertime" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="com.ulovecode.modules.entity.domain.Paper">
+        <id column="paper_id" jdbcType="INTEGER" property="paperId"/>
+        <result column="course_id" jdbcType="INTEGER" property="courseId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="grade" jdbcType="VARCHAR" property="grade"/>
+        <result column="stage" jdbcType="VARCHAR" property="stage"/>
+        <result column="testdate" jdbcType="DATE" property="testdate"/>
+        <result column="pstatus" jdbcType="VARCHAR" property="pstatus"/>
+        <result column="descript" jdbcType="VARCHAR" property="descript"/>
+        <result column="papertime" jdbcType="TIMESTAMP" property="papertime"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
     paper_id, course_id, title, grade, stage, testdate, pstatus, descript, papertime
   </sql>
-  <select id="selectByExample" parameterType="com.ulovecode.modules.entity.domain.PaperExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from paper
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from paper
-    where paper_id = #{paperId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByExample" parameterType="com.ulovecode.modules.entity.domain.PaperExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from paper
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from paper
+        where paper_id = #{paperId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from paper
     where paper_id = #{paperId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ulovecode.modules.entity.domain.PaperExample">
-    delete from paper
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.ulovecode.modules.entity.domain.Paper">
+    <delete id="deleteByExample" parameterType="com.ulovecode.modules.entity.domain.PaperExample">
+        delete from paper
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.ulovecode.modules.entity.domain.Paper">
     insert into paper (paper_id, course_id, title, 
       grade, stage, testdate, 
       pstatus, descript, papertime
@@ -113,154 +116,155 @@
       #{pstatus,jdbcType=VARCHAR}, #{descript,jdbcType=VARCHAR}, #{papertime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.ulovecode.modules.entity.domain.Paper">
-    insert into paper
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="paperId != null">
-        paper_id,
-      </if>
-      <if test="courseId != null">
-        course_id,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="grade != null">
-        grade,
-      </if>
-      <if test="stage != null">
-        stage,
-      </if>
-      <if test="testdate != null">
-        testdate,
-      </if>
-      <if test="pstatus != null">
-        pstatus,
-      </if>
-      <if test="descript != null">
-        descript,
-      </if>
-      <if test="papertime != null">
-        papertime,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="paperId != null">
-        #{paperId,jdbcType=INTEGER},
-      </if>
-      <if test="courseId != null">
-        #{courseId,jdbcType=INTEGER},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="grade != null">
-        #{grade,jdbcType=VARCHAR},
-      </if>
-      <if test="stage != null">
-        #{stage,jdbcType=VARCHAR},
-      </if>
-      <if test="testdate != null">
-        #{testdate,jdbcType=DATE},
-      </if>
-      <if test="pstatus != null">
-        #{pstatus,jdbcType=VARCHAR},
-      </if>
-      <if test="descript != null">
-        #{descript,jdbcType=VARCHAR},
-      </if>
-      <if test="papertime != null">
-        #{papertime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.ulovecode.modules.entity.domain.PaperExample" resultType="java.lang.Integer">
-    select count(*) from paper
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update paper
-    <set>
-      <if test="record.paperId != null">
-        paper_id = #{record.paperId,jdbcType=INTEGER},
-      </if>
-      <if test="record.courseId != null">
+    <insert id="insertSelective" parameterType="com.ulovecode.modules.entity.domain.Paper">
+        insert into paper
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="paperId != null">
+                paper_id,
+            </if>
+            <if test="courseId != null">
+                course_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="grade != null">
+                grade,
+            </if>
+            <if test="stage != null">
+                stage,
+            </if>
+            <if test="testdate != null">
+                testdate,
+            </if>
+            <if test="pstatus != null">
+                pstatus,
+            </if>
+            <if test="descript != null">
+                descript,
+            </if>
+            <if test="papertime != null">
+                papertime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="paperId != null">
+                #{paperId,jdbcType=INTEGER},
+            </if>
+            <if test="courseId != null">
+                #{courseId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null">
+                #{grade,jdbcType=VARCHAR},
+            </if>
+            <if test="stage != null">
+                #{stage,jdbcType=VARCHAR},
+            </if>
+            <if test="testdate != null">
+                #{testdate,jdbcType=DATE},
+            </if>
+            <if test="pstatus != null">
+                #{pstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="descript != null">
+                #{descript,jdbcType=VARCHAR},
+            </if>
+            <if test="papertime != null">
+                #{papertime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.ulovecode.modules.entity.domain.PaperExample"
+            resultType="java.lang.Integer">
+        select count(*) from paper
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update paper
+        <set>
+            <if test="record.paperId != null">
+                paper_id = #{record.paperId,jdbcType=INTEGER},
+            </if>
+            <if test="record.courseId != null">
+                course_id = #{record.courseId,jdbcType=INTEGER},
+            </if>
+            <if test="record.title != null">
+                title = #{record.title,jdbcType=VARCHAR},
+            </if>
+            <if test="record.grade != null">
+                grade = #{record.grade,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stage != null">
+                stage = #{record.stage,jdbcType=VARCHAR},
+            </if>
+            <if test="record.testdate != null">
+                testdate = #{record.testdate,jdbcType=DATE},
+            </if>
+            <if test="record.pstatus != null">
+                pstatus = #{record.pstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.descript != null">
+                descript = #{record.descript,jdbcType=VARCHAR},
+            </if>
+            <if test="record.papertime != null">
+                papertime = #{record.papertime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update paper
+        set paper_id = #{record.paperId,jdbcType=INTEGER},
         course_id = #{record.courseId,jdbcType=INTEGER},
-      </if>
-      <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
-      </if>
-      <if test="record.grade != null">
         grade = #{record.grade,jdbcType=VARCHAR},
-      </if>
-      <if test="record.stage != null">
         stage = #{record.stage,jdbcType=VARCHAR},
-      </if>
-      <if test="record.testdate != null">
         testdate = #{record.testdate,jdbcType=DATE},
-      </if>
-      <if test="record.pstatus != null">
         pstatus = #{record.pstatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.descript != null">
         descript = #{record.descript,jdbcType=VARCHAR},
-      </if>
-      <if test="record.papertime != null">
-        papertime = #{record.papertime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update paper
-    set paper_id = #{record.paperId,jdbcType=INTEGER},
-      course_id = #{record.courseId,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      grade = #{record.grade,jdbcType=VARCHAR},
-      stage = #{record.stage,jdbcType=VARCHAR},
-      testdate = #{record.testdate,jdbcType=DATE},
-      pstatus = #{record.pstatus,jdbcType=VARCHAR},
-      descript = #{record.descript,jdbcType=VARCHAR},
-      papertime = #{record.papertime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ulovecode.modules.entity.domain.Paper">
-    update paper
-    <set>
-      <if test="courseId != null">
-        course_id = #{courseId,jdbcType=INTEGER},
-      </if>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="grade != null">
-        grade = #{grade,jdbcType=VARCHAR},
-      </if>
-      <if test="stage != null">
-        stage = #{stage,jdbcType=VARCHAR},
-      </if>
-      <if test="testdate != null">
-        testdate = #{testdate,jdbcType=DATE},
-      </if>
-      <if test="pstatus != null">
-        pstatus = #{pstatus,jdbcType=VARCHAR},
-      </if>
-      <if test="descript != null">
-        descript = #{descript,jdbcType=VARCHAR},
-      </if>
-      <if test="papertime != null">
-        papertime = #{papertime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where paper_id = #{paperId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.ulovecode.modules.entity.domain.Paper">
+        papertime = #{record.papertime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ulovecode.modules.entity.domain.Paper">
+        update paper
+        <set>
+            <if test="courseId != null">
+                course_id = #{courseId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null">
+                grade = #{grade,jdbcType=VARCHAR},
+            </if>
+            <if test="stage != null">
+                stage = #{stage,jdbcType=VARCHAR},
+            </if>
+            <if test="testdate != null">
+                testdate = #{testdate,jdbcType=DATE},
+            </if>
+            <if test="pstatus != null">
+                pstatus = #{pstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="descript != null">
+                descript = #{descript,jdbcType=VARCHAR},
+            </if>
+            <if test="papertime != null">
+                papertime = #{papertime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where paper_id = #{paperId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ulovecode.modules.entity.domain.Paper">
     update paper
     set course_id = #{courseId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
@@ -272,4 +276,16 @@
       papertime = #{papertime,jdbcType=TIMESTAMP}
     where paper_id = #{paperId,jdbcType=INTEGER}
   </update>
+
+    <select id="deleteWithCascade" statementType="CALLABLE" parameterType="int">
+        <![CDATA[
+      call PRO_DELETE_PAPER(#{paperId,mode=IN,jdbcType=NUMBER})
+        ]]>
+  </select>
+    <insert id="addWitCascade" parameterType="com.ulovecode.modules.entity.domain.Paper">
+        <![CDATA[
+    call PRO_ADD_PAPER_ITME(#{courseId},#{ title},#{ grade}, #{stage},#{ testdate},#{descript})
+        ]]>
+  </insert>
+
 </mapper>

@@ -5,9 +5,6 @@ import com.ulovecode.modules.dao.CourseMapper;
 import com.ulovecode.modules.dao.PaperMapper;
 import com.ulovecode.modules.entity.domain.Paper;
 import com.ulovecode.modules.entity.domain.PaperExample;
-import com.ulovecode.modules.entity.domain.Paper;
-import com.ulovecode.modules.enums.ResultEnum;
-import com.ulovecode.modules.exception.PaperException;
 import com.ulovecode.modules.service.PaperService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +24,7 @@ public class PaperServiceImpl implements PaperService {
     @Autowired
     PaperMapper paperMapper;
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     CourseMapper courseMapper;
 
@@ -38,15 +36,9 @@ public class PaperServiceImpl implements PaperService {
     @CachePut(key = "#paper.get().paperId")
     public void save(Optional<Paper> paper) {
         paper.ifPresent(paper1 -> {
-            if(courseMapper.selectByPrimaryKey(paper1.getCourseId()) == null) {
-                throw new PaperException(ResultEnum.MUST_HAVE_A_COURSE);
-            }
             paperMapper.insertSelective(paper1);
         });
     }
-
-
-
 
     @Override
     @CachePut(key = "#paper.get().paperId")
@@ -86,8 +78,20 @@ public class PaperServiceImpl implements PaperService {
             if (paper.getPaperId() != null) {
                 update(paperOptional);
             } else {
-                save(paperOptional);
+                addWitCascade(paperOptional);
             }
         }
+    }
+
+
+
+    @Override
+    public void deleteWithCascade(Optional<Integer> paperIdOptional) {
+        paperIdOptional.ifPresent(integer -> paperMapper.deleteWithCascade(integer));
+    }
+
+    @Override
+    public void addWitCascade(Optional<Paper> recordOptional) {
+        recordOptional.ifPresent(paper -> paperMapper.addWitCascade(paper));
     }
 }

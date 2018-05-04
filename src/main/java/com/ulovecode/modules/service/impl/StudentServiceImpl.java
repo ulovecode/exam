@@ -27,10 +27,10 @@ public class StudentServiceImpl implements StudentService {
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    StudentMapper studentMapper;
+    private StudentMapper studentMapper;
 
     @Autowired
-    RedisUtils redisUtils;
+    private  RedisUtils redisUtils;
 
 
     @Override

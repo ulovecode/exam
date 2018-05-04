@@ -21,10 +21,10 @@ import java.util.Optional;
 public class ScoreServiceImpl implements ScoreService {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    ScoreMapper scoreMapper;
+    private ScoreMapper scoreMapper;
 
     @Autowired
-    RedisUtils redisUtils;
+    private RedisUtils redisUtils;
 
 
     @Override

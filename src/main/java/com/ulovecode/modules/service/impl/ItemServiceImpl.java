@@ -24,10 +24,10 @@ import java.util.Optional;
 public class ItemServiceImpl implements ItemService {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    ItemMapper itemMapper;
+    private ItemMapper itemMapper;
 
     @Autowired
-    RedisUtils redisUtils;
+    private RedisUtils redisUtils;
 
 
     @Override

@@ -22,10 +22,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    UserInfoMapper userinfoMapper;
+    private UserInfoMapper userinfoMapper;
 
     @Autowired
-    RedisUtils redisUtils;
+    private RedisUtils redisUtils;
 
 
     @Override

@@ -27,10 +27,10 @@ public class CourseServiceImpl implements CourseService {
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    CourseMapper courseMapper;
+    private  CourseMapper courseMapper;
 
     @Autowired
-    RedisUtils redisUtils;
+    private RedisUtils redisUtils;
 
 
     @Override

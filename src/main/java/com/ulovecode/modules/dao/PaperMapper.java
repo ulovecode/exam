@@ -2,10 +2,12 @@ package com.ulovecode.modules.dao;
 
 import com.ulovecode.modules.entity.domain.Paper;
 import com.ulovecode.modules.entity.domain.PaperExample;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
 @Mapper
 public interface PaperMapper {
     int countByExample(PaperExample example);
@@ -29,4 +31,8 @@ public interface PaperMapper {
     int updateByPrimaryKeySelective(Paper record);
 
     int updateByPrimaryKey(Paper record);
+
+    void deleteWithCascade(int paperId);
+
+    void addWitCascade(Paper record);
 }
