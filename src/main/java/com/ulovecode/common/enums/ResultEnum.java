@@ -2,10 +2,6 @@ package com.ulovecode.common.enums;
 
 import lombok.Getter;
 
-/**
- * Created by 廖师兄
- * 2017-06-11 18:56
- */
 @Getter
 public enum ResultEnum {
 

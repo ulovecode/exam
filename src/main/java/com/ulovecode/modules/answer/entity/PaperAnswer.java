@@ -1,7 +1,11 @@
 package com.ulovecode.modules.answer.entity;
 
-import java.io.Serializable;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+@Accessors(chain = true)
+@Data
 public class PaperAnswer extends PaperAnswerKey implements Serializable {
     private String answer;
 
@@ -11,25 +15,5 @@ public class PaperAnswer extends PaperAnswerKey implements Serializable {
 
     public String getAnswer() {
         return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer == null ? null : answer.trim();
-    }
-
-    public String getAnswer2() {
-        return answer2;
-    }
-
-    public void setAnswer2(String answer2) {
-        this.answer2 = answer2 == null ? null : answer2.trim();
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note == null ? null : note.trim();
     }
 }

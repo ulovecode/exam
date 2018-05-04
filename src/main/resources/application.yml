@@ -4,9 +4,8 @@ server:
         uri-encoding: UTF-8
         max-threads: 1000
         min-spare-threads: 30
-    port: 80
+    port: 8080
     connection-timeout: 5000ms
-
 
 # mysql
 spring:
@@ -21,10 +20,6 @@ spring:
         time-zone: GMT+8
         date-format: yyyy-MM-dd HH:mm:ss
     http:
-#        multipart:
-#            max-file-size: 100mb
-#            max-request-size: 100MB
-#            enabled: true
         encoding:
              charset: UTF-8
              enabled: true
@@ -39,7 +34,7 @@ spring:
         max-request-size: 100mb
         enabled: true
     redis:
-        open: true  # 是否开启redis缓存  true开启   false关闭
+        open: false  # 是否开启redis缓存  true开启   false关闭
         database: 0
         host: 120.78.197.187
         port: 6379
@@ -65,8 +60,8 @@ photo:
    app-dir: Users\Administrator\IdeaProject\exam\src\main\resources\static\
 
 file:
-  drive: D:\
-  full-path: D:\Users\Administrator\IdeaProject\exam\target\classes\static\fileResource\
-  file-upload: fileResource\
+  drive: D:\\
+  full-path: D:\\Users\\Administrator\\IdeaProject\\exam\\target\\classes\\static\\fileResource\\
+  file-upload: fileResource\\
   access-path: http://localhost:8081/static/fileResource/
-  app-dir: Users\Administrator\IdeaProject\exam\src\main\resources\static\
+  app-dir: Users\\Administrator\\IdeaProject\\exam\\src\\main\\resources\\static\\

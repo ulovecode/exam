@@ -15,14 +15,13 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author jackzhu
  * @email 435999799@qq.com
- * jackzhu
  */
 @Aspect
 @Configuration
 @Slf4j
 public class RedisAspect {
     //是否开启redis缓存  true开启   false关闭
-    @Value("${spring.redis.open: #{true}}")
+    @Value("${spring.redis.open: #{false}}")
     private boolean open;
 
     @Around("execution(* com.ulovecode.common.utils.RedisUtils.*(..))")

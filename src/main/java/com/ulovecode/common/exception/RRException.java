@@ -3,7 +3,7 @@ package com.ulovecode.common.exception;
 /**
  * 自定义异常
  * 
- * @author jackzhu
+ * @author JackZhu
  * @email 435999799@qq.com
  * @date 2016年10月27日 下午10:11:27
  */

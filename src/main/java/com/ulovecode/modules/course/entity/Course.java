@@ -1,10 +1,12 @@
 package com.ulovecode.modules.course.entity;
 
-import lombok.ToString;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
-@ToString
+@Accessors(chain = true)
+@Data
 public class Course implements Serializable {
     private Integer courseId;
 
@@ -33,59 +35,4 @@ public class Course implements Serializable {
         this.descript = descript;
     }
 
-    public Integer getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
-    }
-
-    public String getCname() {
-        return cname;
-    }
-
-    public void setCname(String cname) {
-        this.cname = cname == null ? null : cname.trim();
-    }
-
-    public String getCtype() {
-        return ctype;
-    }
-
-    public void setCtype(String ctype) {
-        this.ctype = ctype == null ? null : ctype.trim();
-    }
-
-    public Integer getCredit() {
-        return credit;
-    }
-
-    public void setCredit(Integer credit) {
-        this.credit = credit;
-    }
-
-    public Integer getTimes() {
-        return times;
-    }
-
-    public void setTimes(Integer times) {
-        this.times = times;
-    }
-
-    public String getStage() {
-        return stage;
-    }
-
-    public void setStage(String stage) {
-        this.stage = stage == null ? null : stage.trim();
-    }
-
-    public String getDescript() {
-        return descript;
-    }
-
-    public void setDescript(String descript) {
-        this.descript = descript == null ? null : descript.trim();
-    }
 }
