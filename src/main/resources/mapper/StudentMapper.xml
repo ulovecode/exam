@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ulovecode.modules.student.dao.StudentMapper">
+
     <resultMap id="BaseResultMap" type="com.ulovecode.modules.student.entity.Student">
-        <id column="sno" jdbcType="VARCHAR" property="sno"/>
-        <result column="idno" jdbcType="VARCHAR" property="idno"/>
-        <result column="passwd" jdbcType="VARCHAR" property="passwd"/>
-        <result column="major" jdbcType="VARCHAR" property="major"/>
-        <result column="classno" jdbcType="VARCHAR" property="classno"/>
-        <result column="sname" jdbcType="VARCHAR" property="sname"/>
-        <result column="pyname" jdbcType="VARCHAR" property="pyname"/>
-        <result column="gender" jdbcType="VARCHAR" property="gender"/>
-        <result column="birthday" jdbcType="VARCHAR" property="birthday"/>
-        <result column="pic" jdbcType="VARCHAR" property="pic"/>
-        <result column="high_school" jdbcType="VARCHAR" property="highSchool"/>
-        <result column="high_score" jdbcType="INTEGER" property="highScore"/>
-        <result column="insource" jdbcType="VARCHAR" property="insource"/>
-        <result column="intype" jdbcType="VARCHAR" property="intype"/>
-        <result column="nation" jdbcType="VARCHAR" property="nation"/>
-        <result column="political_status" jdbcType="VARCHAR" property="politicalStatus"/>
-        <result column="tel" jdbcType="VARCHAR" property="tel"/>
-        <result column="qq" jdbcType="VARCHAR" property="qq"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-        <result column="descript" jdbcType="VARCHAR" property="descript"/>
-        <result column="rec_dtime" jdbcType="TIMESTAMP" property="recDtime"/>
+        <id column="sno" jdbcType="VARCHAR" property="sno" />
+        <result column="idno" jdbcType="VARCHAR" property="idno" />
+        <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+        <result column="major" jdbcType="VARCHAR" property="major" />
+        <result column="classno" jdbcType="VARCHAR" property="classno" />
+        <result column="sname" jdbcType="VARCHAR" property="sname" />
+        <result column="pyname" jdbcType="VARCHAR" property="pyname" />
+        <result column="gender" jdbcType="VARCHAR" property="gender" />
+        <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+        <result column="pic" jdbcType="VARCHAR" property="pic" />
+        <result column="high_school" jdbcType="VARCHAR" property="highSchool" />
+        <result column="high_score" jdbcType="INTEGER" property="highScore" />
+        <result column="insource" jdbcType="VARCHAR" property="insource" />
+        <result column="intype" jdbcType="VARCHAR" property="intype" />
+        <result column="nation" jdbcType="VARCHAR" property="nation" />
+        <result column="political_status" jdbcType="VARCHAR" property="politicalStatus" />
+        <result column="tel" jdbcType="VARCHAR" property="tel" />
+        <result column="qq" jdbcType="VARCHAR" property="qq" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="descript" jdbcType="VARCHAR" property="descript" />
+        <result column="rec_dtime" jdbcType="TIMESTAMP" property="recDtime" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -42,8 +43,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -72,8 +72,7 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                                         #{listItem}
                                     </foreach>
                                 </when>
@@ -89,16 +88,15 @@
     high_score, insource, intype, nation, political_status, tel, qq, email, descript, 
     rec_dtime
   </sql>
-    <select id="selectByExample" parameterType="com.ulovecode.modules.student.entity.StudentExample"
-            resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.ulovecode.modules.student.entity.StudentExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -106,7 +104,7 @@
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from student
         where sno = #{sno,jdbcType=VARCHAR}
     </select>
@@ -117,7 +115,7 @@
     <delete id="deleteByExample" parameterType="com.ulovecode.modules.student.entity.StudentExample">
         delete from student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.ulovecode.modules.student.entity.Student">
@@ -271,11 +269,10 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.ulovecode.modules.student.entity.StudentExample"
-            resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.ulovecode.modules.student.entity.StudentExample" resultType="java.lang.Integer">
         select count(*) from student
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -346,7 +343,7 @@
             </if>
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -373,7 +370,7 @@
         descript = #{record.descript,jdbcType=VARCHAR},
         rec_dtime = #{record.recDtime,jdbcType=TIMESTAMP}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByPrimaryKeySelective" parameterType="com.ulovecode.modules.student.entity.Student">
