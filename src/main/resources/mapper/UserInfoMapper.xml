@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ulovecode.modules.user.dao.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ulovecode.modules.user.entity.UserInfo">
+    <id column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="login_dtime" jdbcType="TIMESTAMP" property="loginDtime" />
+    <result column="logout_dtime" jdbcType="TIMESTAMP" property="logoutDtime" />
+    <result column="login_host" jdbcType="VARCHAR" property="loginHost" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    userid, realname, passwd, login_dtime, logout_dtime, login_host
+  </sql>
+  <select id="selectByExample" parameterType="com.ulovecode.modules.user.entity.UserInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where userid = #{userid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user_info
+    where userid = #{userid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ulovecode.modules.user.entity.UserInfoExample">
+    delete from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ulovecode.modules.user.entity.UserInfo">
+    insert into user_info (userid, realname, passwd, 
+      login_dtime, logout_dtime, login_host
+      )
+    values (#{userid,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
+      #{loginDtime,jdbcType=TIMESTAMP}, #{logoutDtime,jdbcType=TIMESTAMP}, #{loginHost,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ulovecode.modules.user.entity.UserInfo">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="passwd != null">
+        passwd,
+      </if>
+      <if test="loginDtime != null">
+        login_dtime,
+      </if>
+      <if test="logoutDtime != null">
+        logout_dtime,
+      </if>
+      <if test="loginHost != null">
+        login_host,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDtime != null">
+        #{loginDtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logoutDtime != null">
+        #{logoutDtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginHost != null">
+        #{loginHost,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ulovecode.modules.user.entity.UserInfoExample" resultType="java.lang.Integer">
+    select count(*) from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user_info
+    <set>
+      <if test="record.userid != null">
+        userid = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null">
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwd != null">
+        passwd = #{record.passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginDtime != null">
+        login_dtime = #{record.loginDtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.logoutDtime != null">
+        logout_dtime = #{record.logoutDtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loginHost != null">
+        login_host = #{record.loginHost,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user_info
+    set userid = #{record.userid,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      passwd = #{record.passwd,jdbcType=VARCHAR},
+      login_dtime = #{record.loginDtime,jdbcType=TIMESTAMP},
+      logout_dtime = #{record.logoutDtime,jdbcType=TIMESTAMP},
+      login_host = #{record.loginHost,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ulovecode.modules.user.entity.UserInfo">
+    update user_info
+    <set>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDtime != null">
+        login_dtime = #{loginDtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logoutDtime != null">
+        logout_dtime = #{logoutDtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginHost != null">
+        login_host = #{loginHost,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userid = #{userid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ulovecode.modules.user.entity.UserInfo">
+    update user_info
+    set realname = #{realname,jdbcType=VARCHAR},
+      passwd = #{passwd,jdbcType=VARCHAR},
+      login_dtime = #{loginDtime,jdbcType=TIMESTAMP},
+      logout_dtime = #{logoutDtime,jdbcType=TIMESTAMP},
+      login_host = #{loginHost,jdbcType=VARCHAR}
+    where userid = #{userid,jdbcType=VARCHAR}
+  </update>
+</mapper>

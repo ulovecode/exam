@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ulovecode.modules.answer.dao.PaperAnswerMapper">
+  <resultMap id="BaseResultMap" type="com.ulovecode.modules.answer.entity.PaperAnswer">
+    <id column="paper_id" jdbcType="INTEGER" property="paperId" />
+    <id column="item_id" jdbcType="INTEGER" property="itemId" />
+    <id column="sno" jdbcType="VARCHAR" property="sno" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="answer2" jdbcType="VARCHAR" property="answer2" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    paper_id, item_id, sno, answer, answer2, note
+  </sql>
+  <select id="selectByExample" parameterType="com.ulovecode.modules.answer.entity.PaperAnswerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from paper_answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.ulovecode.modules.answer.entity.PaperAnswerKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from paper_answer
+    where paper_id = #{paperId,jdbcType=INTEGER}
+      and item_id = #{itemId,jdbcType=INTEGER}
+      and sno = #{sno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ulovecode.modules.answer.entity.PaperAnswerKey">
+    delete from paper_answer
+    where paper_id = #{paperId,jdbcType=INTEGER}
+      and item_id = #{itemId,jdbcType=INTEGER}
+      and sno = #{sno,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ulovecode.modules.answer.entity.PaperAnswerExample">
+    delete from paper_answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ulovecode.modules.answer.entity.PaperAnswer">
+    insert into paper_answer (paper_id, item_id, sno, 
+      answer, answer2, note
+      )
+    values (#{paperId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{sno,jdbcType=VARCHAR}, 
+      #{answer,jdbcType=VARCHAR}, #{answer2,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ulovecode.modules.answer.entity.PaperAnswer">
+    insert into paper_answer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paperId != null">
+        paper_id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="sno != null">
+        sno,
+      </if>
+      <if test="answer != null">
+        answer,
+      </if>
+      <if test="answer2 != null">
+        answer2,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paperId != null">
+        #{paperId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="sno != null">
+        #{sno,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="answer2 != null">
+        #{answer2,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ulovecode.modules.answer.entity.PaperAnswerExample" resultType="java.lang.Integer">
+    select count(*) from paper_answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update paper_answer
+    <set>
+      <if test="record.paperId != null">
+        paper_id = #{record.paperId,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemId != null">
+        item_id = #{record.itemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sno != null">
+        sno = #{record.sno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answer != null">
+        answer = #{record.answer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answer2 != null">
+        answer2 = #{record.answer2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null">
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update paper_answer
+    set paper_id = #{record.paperId,jdbcType=INTEGER},
+      item_id = #{record.itemId,jdbcType=INTEGER},
+      sno = #{record.sno,jdbcType=VARCHAR},
+      answer = #{record.answer,jdbcType=VARCHAR},
+      answer2 = #{record.answer2,jdbcType=VARCHAR},
+      note = #{record.note,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ulovecode.modules.answer.entity.PaperAnswer">
+    update paper_answer
+    <set>
+      <if test="answer != null">
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="answer2 != null">
+        answer2 = #{answer2,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where paper_id = #{paperId,jdbcType=INTEGER}
+      and item_id = #{itemId,jdbcType=INTEGER}
+      and sno = #{sno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ulovecode.modules.answer.entity.PaperAnswer">
+    update paper_answer
+    set answer = #{answer,jdbcType=VARCHAR},
+      answer2 = #{answer2,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR}
+    where paper_id = #{paperId,jdbcType=INTEGER}
+      and item_id = #{itemId,jdbcType=INTEGER}
+      and sno = #{sno,jdbcType=VARCHAR}
+  </update>
+</mapper>
