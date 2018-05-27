@@ -2,10 +2,15 @@ package com.ulovecode.modules.paper.controller;
 
 
 import com.ulovecode.common.utils.R;
+import com.ulovecode.common.utils.RR;
 import com.ulovecode.modules.course.entity.Course;
+import com.ulovecode.modules.item.entity.Item;
+import com.ulovecode.modules.item.service.ItemService;
 import com.ulovecode.modules.paper.entity.Paper;
 import com.ulovecode.modules.course.service.CourseService;
 import com.ulovecode.modules.paper.service.PaperService;
+import com.ulovecode.modules.student.entity.Student;
+import com.ulovecode.modules.student.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,25 +19,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @RestController
 @RequestMapping("/paper")
 @Slf4j
 public class PaperContoller {
     @Autowired
+    private StudentService studentService;
+    @Autowired
+    private ItemService itemService;
+    @Autowired
     private PaperService paperService;
     @Autowired
     private CourseService courseService;
 
-    @RequestMapping("/showList")
+    @RequestMapping("/showlist")
     public Optional<List<Paper>> showPaper() {
         return paperService.queryList();
     }
 
     @RequestMapping("/delete/{paperId}")
-    public R deletePaper(@PathVariable("paperId") OptionalInt paperId) {
+    public R deletePaper(@PathVariable("paperId") Optional<Integer> paperId) {
         if (!paperId.isPresent()) {
             return R.error("操作失败");
         }
@@ -77,4 +86,19 @@ public class PaperContoller {
         return R.ok("course", courses);
     }
 
+    @RequestMapping("/info/{paperId}")
+    public RR examInfoBySno(@PathVariable Optional<Integer> paperId, Optional<String> studentId) {
+        Student student = null;
+        List<Item> itemList = null;
+        Paper paper = null;
+
+        if (studentId.isPresent()) {
+            student = studentService.queryObject(studentId.map(integer -> ((Object) integer))).orElseGet(Student::new);
+        }
+        if (paperId.isPresent()) {
+            paper = paperService.queryObject(paperId.map(integer -> ((Object) integer))).orElseGet(Paper::new);
+            itemList = paperService.findByPaperId(paperId.map(integer -> ((Object) integer)));
+        }
+        return Objects.requireNonNull(RR.ok().dataPut("student", student).dataPut("paper", paper).dataPut("itemList", itemList));
+    }
 }

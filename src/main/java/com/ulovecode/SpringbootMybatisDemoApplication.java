@@ -8,7 +8,8 @@ import java.util.Date;
 
 @SpringBootApplication
 @EnableTransactionManagement
-public class SpringbootMybatisDemoApplication {
+public class
+SpringbootMybatisDemoApplication {
 
 
     public static void main(String[] args) {

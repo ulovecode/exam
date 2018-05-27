@@ -2,6 +2,8 @@ package com.ulovecode.modules.paper.service.impl;
 
 import com.ulovecode.common.utils.RedisUtils;
 import com.ulovecode.modules.course.dao.CourseMapper;
+import com.ulovecode.modules.item.entity.Item;
+import com.ulovecode.modules.paper.dao.PaperItemMapper;
 import com.ulovecode.modules.paper.dao.PaperMapper;
 import com.ulovecode.modules.paper.entity.Paper;
 import com.ulovecode.modules.paper.entity.PaperExample;
@@ -10,31 +12,30 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @Slf4j
 @Service
 @CacheConfig(cacheNames = "paper")
 public class PaperServiceImpl implements PaperService {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-
     @Autowired
     PaperMapper paperMapper;
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     CourseMapper courseMapper;
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    PaperItemMapper paperItemMapper;
 
     @Autowired
     RedisUtils redisUtils;
 
     @Override
-    @CachePut(key = "#paper.get().paperId")
+    // @CachePut(key = "#paper.get().paperId")
     public void save(Optional<Paper> paper) {
         paper.ifPresent(paper1 -> {
             paperMapper.insertSelective(paper1);
@@ -42,7 +43,7 @@ public class PaperServiceImpl implements PaperService {
     }
 
     @Override
-    @CachePut(key = "#paper.get().paperId")
+    // @CachePut(key = "#paper.get().paperId")
     public int update(Optional<Paper> paper) {
         paper.ifPresent(paper1 -> paperMapper.updateByPrimaryKeySelective(paper1));
         return 1;
@@ -57,13 +58,13 @@ public class PaperServiceImpl implements PaperService {
 
 
     @Override
-    @Cacheable(key = "#id.get()")
+   // @Cacheable(key = "#id.get()")
     public Optional<Paper> queryObject(Optional<Object> id) {
         return id.map(o -> paperMapper.selectByPrimaryKey((Integer) o));
     }
 
     @Override
-//    @Cacheable
+//   // @Cacheable
 //    @Caching
     public Optional<List<Paper>> queryList() {
         List<Paper> papersList = paperMapper.selectByExample(new PaperExample());
@@ -87,12 +88,21 @@ public class PaperServiceImpl implements PaperService {
 
 
     @Override
-    public void deleteWithCascade(OptionalInt paperIdOptional) {
+    public void deleteWithCascade(Optional<Integer> paperIdOptional) {
         paperIdOptional.ifPresent(integer -> paperMapper.deleteWithCascade(integer));
     }
 
     @Override
     public void addWitCascade(Optional<Paper> recordOptional) {
         recordOptional.ifPresent(paper -> paperMapper.addWitCascade(paper));
+    }
+
+    @Override
+    public List<Item> findByPaperId(Optional<Object> paperId) {
+        if (paperId.isPresent()) {
+            List<Item> items = paperItemMapper.selectByPaperId((Integer) paperId.get());
+            return items;
+        }
+        return null;
     }
 }

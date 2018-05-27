@@ -26,7 +26,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 
     @Override
-//    @CachePut(key = "#userinfo.get().sno")
+//    // @CachePut(key = "#userinfo.get().sno")
     public void save(Optional<UserInfo> userinfo) {
         userinfo.ifPresent(userinfo1 -> {
             userinfoMapper.insertSelective(userinfo1);
@@ -36,7 +36,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 
     @Override
-//    @CachePut(key = "#userinfo.get().sno")
+//    // @CachePut(key = "#userinfo.get().sno")
     public int update(Optional<UserInfo> userinfo) {
         userinfo.ifPresent(userinfo1 -> userinfoMapper.updateByPrimaryKeySelective(userinfo1));
         return 1;
@@ -51,7 +51,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 
     @Override
-//    @Cacheable(key = "#id.get()")
+//   // @Cacheable(key = "#id.get()")
     public Optional<UserInfo> queryObject(Optional<Object> id) {
         return id.map(o -> userinfoMapper.selectByPrimaryKey((String) o));
     }
@@ -64,7 +64,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-//    @CachePut(key = "#userinfoOptional.get().sno")
+//    // @CachePut(key = "#userinfoOptional.get().sno")
     public void saveOrUpdate(Optional<UserInfo> userinfoOptional) {
         if (userinfoOptional.isPresent()) {
             if (userinfoOptional.get().getUserid() != null) {

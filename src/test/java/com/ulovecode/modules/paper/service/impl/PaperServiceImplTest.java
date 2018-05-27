@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 import static org.junit.Assert.*;
 
@@ -26,7 +25,7 @@ public class PaperServiceImplTest {
 
     @Test
     public void deleteWithCascade() {
-        paperService.deleteWithCascade(OptionalInt.of(21));
+//        paperService.deleteWithCascade(Optional<Integer>.of(21));
 
     }
 

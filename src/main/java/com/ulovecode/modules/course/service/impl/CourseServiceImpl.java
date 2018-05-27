@@ -31,7 +31,7 @@ public class CourseServiceImpl implements CourseService {
 
 
     @Override
-    @CachePut(key = "#course.get().courseId")
+    // @CachePut(key = "#course.get().courseId")
     public void save(Optional<Course> course) {
         course.ifPresent(course1 -> {
             courseMapper.insertSelective(course1);
@@ -42,7 +42,7 @@ public class CourseServiceImpl implements CourseService {
 
 
     @Override
-    @CachePut(key = "#course.get().courseId")
+    // @CachePut(key = "#course.get().courseId")
     public int update(Optional<Course> course) {
         course.ifPresent(course1 -> courseMapper.updateByPrimaryKeySelective(course1));
         return 1;
@@ -57,13 +57,13 @@ public class CourseServiceImpl implements CourseService {
 
 
     @Override
-    @Cacheable(key = "#id.get()")
+   // @Cacheable(key = "#id.get()")
     public Optional<Course> queryObject(Optional<Object> id) {
         return id.map(o -> courseMapper.selectByPrimaryKey((Integer) o));
     }
 
     @Override
-//    @Cacheable
+//   // @Cacheable
 //    @Caching
     public Optional<List<Course>> queryList() {
         List<Course> coursesList = courseMapper.selectByExample(new CourseExample());

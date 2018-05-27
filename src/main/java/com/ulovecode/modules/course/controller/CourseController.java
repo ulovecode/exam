@@ -22,7 +22,7 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @RequestMapping("/showList")
+    @RequestMapping("/showlist")
     public Optional<List<Course>> showCourse() {
         return courseService.queryList();
     }

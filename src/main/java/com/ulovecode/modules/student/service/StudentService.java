@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface StudentService extends BaseService<Student> {
 
-    Optional<Student> queryObjectByIdNoAndSno(Optional<Student> studentOptional);
+    Optional<Student>
+    queryObjectByIdNoAndSno(Optional<Student> studentOptional);
 }

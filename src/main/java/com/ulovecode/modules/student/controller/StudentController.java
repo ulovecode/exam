@@ -19,7 +19,7 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @RequestMapping("/showList")
+    @RequestMapping("/showlist")
     public Optional<List<Student>> showStudent() {
         return studentService.queryList();
 

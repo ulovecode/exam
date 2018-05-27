@@ -27,7 +27,7 @@ public class ItemServiceImpl implements ItemService {
 
 
     @Override
-//    @CachePut(key = "#item.get().sno")
+//    // @CachePut(key = "#item.get().sno")
     public void save(Optional<Item> item) {
         item.ifPresent(item1 -> {
             itemMapper.insertSelective(item1);
@@ -37,7 +37,7 @@ public class ItemServiceImpl implements ItemService {
 
 
     @Override
-//    @CachePut(key = "#item.get().sno")
+//    // @CachePut(key = "#item.get().sno")
     public int update(Optional<Item> item) {
         item.ifPresent(item1 -> itemMapper.updateByPrimaryKeySelective(item1));
         return 1;
@@ -53,7 +53,7 @@ public class ItemServiceImpl implements ItemService {
 
 
     @Override
-//    @Cacheable(key = "#id.get()")
+//   // @Cacheable(key = "#id.get()")
     public Optional<Item> queryObject(Optional<Object> id) {
         return id.map(o -> itemMapper.selectByPrimaryKey((Integer) o));
     }
@@ -66,7 +66,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-//    @CachePut(key = "#itemOptional.get().sno")
+//    // @CachePut(key = "#itemOptional.get().sno")
     public void saveOrUpdate(Optional<Item> itemOptional) {
         if (itemOptional.isPresent()) {
             if (itemOptional.get().getItemId() != null) {

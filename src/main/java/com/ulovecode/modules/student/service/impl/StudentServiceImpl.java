@@ -31,7 +31,7 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-//    @CachePut(key = "#student.get().sno")
+//    // @CachePut(key = "#student.get().sno")
     public void save(Optional<Student> student) {
             student.ifPresent(student1 -> {
                 studentMapper.insertSelective(student1);
@@ -41,7 +41,7 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-//    @CachePut(key = "#student.get().sno")
+//    // @CachePut(key = "#student.get().sno")
     public int update(Optional<Student> student) {
             student.ifPresent(student1 -> studentMapper.updateByPrimaryKeySelective(student1));
         return 1;
@@ -56,9 +56,13 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-//    @Cacheable(key = "#id.get()")
+//   // @Cacheable(key = "#id.get()")
     public Optional<Student> queryObject(Optional<Object> id) {
-        return id.map(o -> studentMapper.selectByPrimaryKey((String) o));
+        if (id.isPresent()) {
+            Student student = studentMapper.selectByPrimaryKey(((String) (id.get())));
+            return Optional.ofNullable(student);
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -69,7 +73,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-//    @CachePut(key = "#studentOptional.get().sno")
+//    // @CachePut(key = "#studentOptional.get().sno")
     public void saveOrUpdate(Optional<Student> studentOptional) {
         if (studentOptional.isPresent()) {
             if (!queryObjectByIdNoAndSno(studentOptional).equals(Optional.empty())) {

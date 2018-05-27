@@ -28,7 +28,7 @@ public class ScoreServiceImpl implements ScoreService {
 
 
     @Override
-//    @CachePut(key = "#score.get().sno")
+//    // @CachePut(key = "#score.get().sno")
     public void save(Optional<Score> score) {
         score.ifPresent(score1 -> {
             scoreMapper.insertSelective(score1);
@@ -38,7 +38,7 @@ public class ScoreServiceImpl implements ScoreService {
 
 
     @Override
-//    @CachePut(key = "#score.get().sno")
+//    // @CachePut(key = "#score.get().sno")
     public int update(Optional<Score> score) {
         score.ifPresent(score1 -> scoreMapper.updateByPrimaryKeySelective(score1));
         return 1;
@@ -54,7 +54,7 @@ public class ScoreServiceImpl implements ScoreService {
 
 
     @Override
-//    @Cacheable(key = "#id.get()")
+//   // @Cacheable(key = "#id.get()")
     public Optional<Score> queryObject(Optional<Object> id) {
         return id.map(o -> scoreMapper.selectByPrimaryKey((ScoreKey) o));
     }
@@ -67,7 +67,7 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-//    @CachePut(key = "#scoreOptional.get().sno")
+//    // @CachePut(key = "#scoreOptional.get().sno")
     public void saveOrUpdate(Optional<Score> scoreOptional) {
 //            TODO
     }

@@ -41,7 +41,10 @@ BaseService<T> {
 
 
 
-    Optional<T> queryObject(Optional<Object> id);
+    Optional<T>
+
+
+    queryObject(Optional<Object> id);
 
 
     Optional<List<T>> queryList();

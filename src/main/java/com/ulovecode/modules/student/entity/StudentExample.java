@@ -11,7 +11,9 @@ public class StudentExample {
 
     protected List<Criteria> oredCriteria;
 
-    public StudentExample() {
+    public
+
+    StudentExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -127,6 +129,7 @@ public class StudentExample {
 
         public Criteria andSnoGreaterThan(String value) {
             addCriterion("sno >", value, "sno");
+
             return (Criteria) this;
         }
 

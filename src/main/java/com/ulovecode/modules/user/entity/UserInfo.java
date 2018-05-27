@@ -21,8 +21,5 @@ UserInfo implements Serializable {
 
     private String loginHost;
 
-    public String getUserid() {
-        return userid;
-    }
 
 }

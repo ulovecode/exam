@@ -1,5 +1,6 @@
 package com.ulovecode.modules.paper.dao;
 
+import com.ulovecode.modules.item.entity.Item;
 import com.ulovecode.modules.paper.entity.PaperItemExample;
 import com.ulovecode.modules.paper.entity.PaperItemKey;
 import java.util.List;
@@ -23,4 +24,6 @@ public interface PaperItemMapper {
     int updateByExampleSelective(@Param("record") PaperItemKey record, @Param("example") PaperItemExample example);
 
     int updateByExample(@Param("record") PaperItemKey record, @Param("example") PaperItemExample example);
+
+    List<Item>  selectByPaperId(Integer paperId);
 }

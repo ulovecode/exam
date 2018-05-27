@@ -8,6 +8,7 @@ import java.util.Date;
 @Accessors(chain = true)
 @Data
 public class
+
 Item implements Serializable {
     private Integer itemId;
 
