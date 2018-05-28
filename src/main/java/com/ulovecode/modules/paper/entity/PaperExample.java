@@ -46,7 +46,8 @@ public class PaperExample {
         return criteria;
     }
 
-    public Criteria createCriteria() {
+    public Criteria
+    createCriteria() {
         Criteria criteria = createCriteriaInternal();
         if (oredCriteria.size() == 0) {
             oredCriteria.add(criteria);

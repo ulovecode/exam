@@ -14,6 +14,9 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -105,4 +108,15 @@ public class PaperServiceImpl implements PaperService {
         }
         return null;
     }
+
+    public List<Paper> paperListOrderByDate() {
+        PaperExample paperExample = new PaperExample();
+        PaperExample.Criteria criteria = paperExample.createCriteria();
+        paperExample.setOrderByClause("testdate");
+        criteria.andTestdateIsNotNull()
+                .andTestdateGreaterThanOrEqualTo(Date.from(LocalDateTime.now().plusHours(-1).toInstant(ZoneOffset.ofHours(8))));
+       return paperMapper.selectByExample(paperExample);
+    }
+
+
 }

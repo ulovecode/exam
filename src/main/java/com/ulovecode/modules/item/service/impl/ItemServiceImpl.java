@@ -5,6 +5,7 @@ import com.ulovecode.modules.item.dao.ItemMapper;
 import com.ulovecode.modules.item.entity.Item;
 import com.ulovecode.modules.item.entity.ItemExample;
 import com.ulovecode.modules.item.service.ItemService;
+import com.ulovecode.modules.paper.dao.PaperItemMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -22,6 +23,9 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ItemMapper itemMapper;
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private PaperItemMapper paperItemMapper;
     @Autowired
     private RedisUtils redisUtils;
 
@@ -78,5 +82,13 @@ public class ItemServiceImpl implements ItemService {
 
     }
 
+    public Optional<List<Item>> findByPaperId(Optional<Integer>  paperIdOptional) {
+        if (paperIdOptional.isPresent()) {
+            Integer paperId = paperIdOptional.get();
+            List<Item> items = paperItemMapper.selectByPaperId(paperId);
+            return Optional.ofNullable(items);
+        }
+        return Optional.empty();
+    }
 
 }

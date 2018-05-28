@@ -41,9 +41,7 @@ public class PaperController {
     }
 
     @RequestMapping("/delete/{paperId}")
-    public R deletePaper(@PathVariabl
-
-                         e("paperId") Optional<Integer> paperId) {
+    public R deletePaper(@PathVariable("paperId") Optional<Integer> paperId) {
         if (!paperId.isPresent()) {
             return R.error("操作失败");
         }

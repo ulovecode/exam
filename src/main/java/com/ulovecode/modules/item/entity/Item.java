@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
+
 @Accessors(chain = true)
 @Data
 public class
@@ -31,8 +32,7 @@ Item implements Serializable {
 
     private String optionf;
 
-    private String optiong
-            ;
+    private String optiong;
 
     private String answer;
 

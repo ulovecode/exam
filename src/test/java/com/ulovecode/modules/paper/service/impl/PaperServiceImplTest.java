@@ -1,6 +1,7 @@
 package com.ulovecode.modules.paper.service.impl;
 
 import com.ulovecode.SpringbootMybatisDemoApplication;
+import com.ulovecode.modules.item.entity.Item;
 import com.ulovecode.modules.paper.entity.Paper;
 import com.ulovecode.modules.paper.service.PaperService;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -41,6 +43,13 @@ public class PaperServiceImplTest {
                 .setTitle("2131");
 
         paperService.addWitCascade(Optional.of(paper));
+
+    }
+
+    @Test
+    public void testPaperListOrderByDate() {
+        List<Paper> papers = paperService.paperListOrderByDate();
+        System.out.println(papers);
 
     }
 }

@@ -13,4 +13,6 @@ public interface PaperService extends BaseService<Paper> {
     void addWitCascade(Optional<Paper> recordOptional);
 
     List<Item> findByPaperId(Optional<Object> paperId);
+
+    List<Paper> paperListOrderByDate();
 }
