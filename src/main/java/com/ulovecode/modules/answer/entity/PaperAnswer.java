@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 @Accessors(chain = true)
+
 @Data
 public class PaperAnswer extends PaperAnswerKey implements Serializable {
     private String answer;

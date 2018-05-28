@@ -16,6 +16,7 @@ Item implements Serializable {
 
     private String itemType;
 
+
     private String question;
 
     private String optiona;
@@ -30,9 +31,11 @@ Item implements Serializable {
 
     private String optionf;
 
-    private String optiong;
+    private String optiong
+            ;
 
     private String answer;
+
 
     private Integer difficulty;
 

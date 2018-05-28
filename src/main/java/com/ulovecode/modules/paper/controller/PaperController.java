@@ -25,7 +25,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/paper")
 @Slf4j
-public class PaperContoller {
+public class PaperController {
     @Autowired
     private StudentService studentService;
     @Autowired
@@ -41,7 +41,9 @@ public class PaperContoller {
     }
 
     @RequestMapping("/delete/{paperId}")
-    public R deletePaper(@PathVariable("paperId") Optional<Integer> paperId) {
+    public R deletePaper(@PathVariabl
+
+                         e("paperId") Optional<Integer> paperId) {
         if (!paperId.isPresent()) {
             return R.error("操作失败");
         }
