@@ -5,8 +5,11 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class ItemAnser {
+public class ItemAnswer {
 
+    private String paperId;
+
+    private String itemId;
 
     private String question;
 

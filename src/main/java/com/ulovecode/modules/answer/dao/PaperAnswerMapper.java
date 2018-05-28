@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface PaperAnswerMapper {
+
     int countByExample(PaperAnswerExample example);
 
     int deleteByExample(PaperAnswerExample example);

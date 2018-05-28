@@ -2,6 +2,7 @@ package com.ulovecode.modules.answer.entity;
 
 import java.io.Serializable;
 
+
 public class PaperAnswerKey implements Serializable {
     private Integer paperId;
 
