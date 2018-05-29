@@ -279,12 +279,27 @@
 
     <select id="deleteWithCascade" statementType="CALLABLE" parameterType="int">
         <![CDATA[
+
+
       call PRO_DELETE_PAPER(#{paperId})
+
+
         ]]>
   </select>
+    <select id="ChangePstatus" statementType="CALLABLE">
+  <![CDATA[
+
+      call PRO_CHANGE_PSTATUS()
+
+        ]]>
+    </select>
     <insert id="addWitCascade" parameterType="com.ulovecode.modules.paper.entity.Paper">
         <![CDATA[
+
+
     call PRO_ADD_PAPER_ITME(#{courseId},#{title},#{grade}, #{stage},#{ testdate},#{descript})
+
+
         ]]>
   </insert>
 

@@ -18,9 +18,9 @@ BaseService<T> {
 
     @Transactional(rollbackFor = Exception.class)
     default void saveBatch(Optional<List<T>> list){
-            list.get().forEach(t -> {
-                save(Optional.of(t));
-            });
+        list.ifPresent(ts -> ts.forEach(t -> {
+            save(Optional.of(t));
+        }));
     }
 
 

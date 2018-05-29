@@ -54,9 +54,9 @@ mybatis:
 #上传文件路径
 photo:
    drive: D:\
-   full-path: D:\Users\Administrator\IdeaProject\exam\target\classes\static\studentResource\
+   full-path: D:\upload\
    student-upload: studentResource\
-   access-path: http://localhost:8081/static/studentResource/
+   access-path: http://localhost:8080/student/img/
    app-dir: Users\Administrator\IdeaProject\exam\src\main\resources\static\
 
 file:

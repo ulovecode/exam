@@ -5,6 +5,8 @@ import com.ulovecode.modules.answer.entity.PaperAnswer;
 import com.ulovecode.modules.answer.service.PaperAnswerService;
 import com.ulovecode.modules.item.entity.Item;
 import com.ulovecode.modules.item.service.ItemService;
+import com.ulovecode.modules.paper.entity.Paper;
+import com.ulovecode.modules.paper.service.PaperService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,8 @@ public class AnswerController {
 
     @Autowired
     ItemService itemService;
+    @Autowired
+    PaperService paperService;
 
 
     @RequestMapping("/save")
@@ -37,6 +41,11 @@ public class AnswerController {
     }
 
 
+    @RequestMapping("/examlist")
+    public R examlist() {
+        List<Paper> papers = paperService.paperListOrderByDate();
+        return R.ok("data", papers);
+    }
 
 
 

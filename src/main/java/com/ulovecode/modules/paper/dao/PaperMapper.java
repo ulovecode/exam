@@ -35,4 +35,7 @@ public interface PaperMapper {
     void deleteWithCascade(int paperId);
 
     void addWitCascade(Paper record);
+
+    void ChangePstatus();
+
 }

@@ -22,7 +22,6 @@ Paper implements Serializable {
 
     private Date testdate;
 
-
     private String pstatus;
 
     private String descript;

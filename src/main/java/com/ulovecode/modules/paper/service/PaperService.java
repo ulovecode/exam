@@ -15,4 +15,6 @@ public interface PaperService extends BaseService<Paper> {
     List<Item> findByPaperId(Optional<Object> paperId);
 
     List<Paper> paperListOrderByDate();
+
+    void ChangePstatus();
 }

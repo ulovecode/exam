@@ -114,8 +114,13 @@ public class PaperServiceImpl implements PaperService {
         PaperExample.Criteria criteria = paperExample.createCriteria();
         paperExample.setOrderByClause("testdate");
         criteria.andTestdateIsNotNull()
-                .andTestdateGreaterThanOrEqualTo(Date.from(LocalDateTime.now().plusHours(-1).toInstant(ZoneOffset.ofHours(8))));
+                .andTestdateGreaterThanOrEqualTo(Date.from(LocalDateTime.now().plusHours(-12).toInstant(ZoneOffset.ofHours(8))));
        return paperMapper.selectByExample(paperExample);
+    }
+
+    @Override
+    public void ChangePstatus() {
+        paperMapper.ChangePstatus();
     }
 
 

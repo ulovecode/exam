@@ -13,10 +13,7 @@ import com.ulovecode.modules.student.entity.Student;
 import com.ulovecode.modules.student.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -94,11 +91,30 @@ public class PaperController {
 
         if (studentId.isPresent()) {
             student = studentService.queryObject(studentId.map(integer -> ((Object) integer))).orElseGet(Student::new);
+            log.info("查询到学生信息:"+student);
         }
         if (paperId.isPresent()) {
             paper = paperService.queryObject(paperId.map(integer -> ((Object) integer))).orElseGet(Paper::new);
             itemList = paperService.findByPaperId(paperId.map(integer -> ((Object) integer)));
+            log.info("查询到paper:"+paper);
+            log.info("查询到itemList:"+itemList);
         }
         return Objects.requireNonNull(RR.ok().dataPut("student", student).dataPut("paper", paper).dataPut("itemList", itemList));
+    }
+
+    @RequestMapping("/changestatus")
+    public R changeStatus( Integer paperId) {
+        if(paperId == null)  return   R.error("更新失败");
+        Optional<Paper> paper = paperService.queryObject(Optional.ofNullable(paperId));
+        Optional<Paper> paperUpdate = paper.map(paper1 -> {
+            paper1.setPstatus("启用");
+            return paper1;
+        });
+        int result = paperService.update(paperUpdate);
+        log.info("改变状态");
+        if (result != 1) {
+            R.error("更新失败");
+        }
+        return R.ok("更新成功");
     }
 }

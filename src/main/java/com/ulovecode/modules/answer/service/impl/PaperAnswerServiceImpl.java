@@ -80,14 +80,4 @@ public class PaperAnswerServiceImpl implements PaperAnswerService{
         }
     }
 
-    public void BatchSave(Optional<List<PaperAnswer>> answerListOptional) {
-        if (answerListOptional.isPresent()) {
-            List<PaperAnswer> paperAnswers = answerListOptional.get();
-            if (!paperAnswers.isEmpty()) {
-                paperAnswers.forEach(paperAnswer -> {
-                    paperAnswerMapper.insert(paperAnswer);
-                });
-            }
-        }
-    }
 }
