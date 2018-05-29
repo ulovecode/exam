@@ -9,9 +9,13 @@ import com.ulovecode.modules.paper.entity.Paper;
 import com.ulovecode.modules.paper.service.PaperService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,13 +28,14 @@ public class AnswerController {
 
     @Autowired
     ItemService itemService;
+
     @Autowired
     PaperService paperService;
 
 
-    @RequestMapping("/save")
-    public R examAnswerSave(List<PaperAnswer> answer) {
-        paperAnswerService.saveBatch(Optional.ofNullable(answer));
+    @RequestMapping(value = "/save")
+    public R examAnswerSave(@RequestBody ArrayList<PaperAnswer> answers) {
+        paperAnswerService.saveBatch(Optional.ofNullable(answers));
         return R.ok("提交答案成功");
     }
 
