@@ -56,5 +56,21 @@ public class StudentController {
         return R.ok("student", student.get());
     }
 
+    @RequestMapping("/login")
+    public R login(@RequestBody Student student) {
+        if (student == null) {
+            return R.error("请填写账号和密码");
+        }
+        Optional<Student> studentOptional = studentService.queryObject(Optional.ofNullable(student.getSno()));
+        if (studentOptional.isPresent()) {
+            Student studentData = studentOptional.orElseGet(Student::new);
+            if (studentData.getPasswd() != null) {
+                if (studentData.getPasswd().equals(student.getPasswd())) {
+                    return R.ok("student", studentData);
+                }
+            }
+        }
+        return R.error("账号或密码错误");
+    }
 
 }
