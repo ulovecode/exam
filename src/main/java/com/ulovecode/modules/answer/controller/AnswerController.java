@@ -7,6 +7,7 @@ import com.ulovecode.modules.item.entity.Item;
 import com.ulovecode.modules.item.service.ItemService;
 import com.ulovecode.modules.paper.entity.Paper;
 import com.ulovecode.modules.paper.service.PaperService;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,6 +23,7 @@ import java.util.Optional;
 @RequestMapping("/answer")
 @RestController
 @Slf4j
+@Api("试卷答案的相关接口")
 public class AnswerController {
     @Autowired
     PaperAnswerService paperAnswerService;
@@ -32,9 +34,11 @@ public class AnswerController {
     @Autowired
     PaperService paperService;
 
-
+    @ApiOperation(value = "保存学生提交答案",response = R.class)
+//    @ApiImplicitParam(paramType = "query", name = "anwers", value Zz= "试卷答案集合", required = true, dataType = "ArrayList<PaperAnswer>")
+    @ApiResponses({@ApiResponse(code = 0, message = "正常码"), @ApiResponse(code = 500, message = "服务器处理错误")})
     @RequestMapping(value = "/save")
-    public R examAnswerSave(@RequestBody ArrayList<PaperAnswer> answers) {
+    public R examAnswerSave(@RequestBody  @ApiParam(value = "用户的答案", required = true) ArrayList<PaperAnswer> answers) {
         paperAnswerService.saveBatch(Optional.ofNullable(answers));
         return R.ok("提交答案成功");
     }
@@ -51,7 +55,6 @@ public class AnswerController {
         List<Paper> papers = paperService.paperListOrderByDate();
         return R.ok("data", papers);
     }
-
 
 
 }
