@@ -6,8 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 
-@ApiModel(description = "考生及试卷信息" +
-        "")
+@ApiModel(description = "考生及试卷信息")
 public class PaperAnswerKey implements Serializable {
     @ApiModelProperty(value = "试卷Id", example = "52",position = 1)
     private Integer paperId;

@@ -5,10 +5,7 @@ import com.ulovecode.modules.item.entity.Item;
 import com.ulovecode.modules.item.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,14 +19,12 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    @RequestMapping("/showlist")
+    @GetMapping("/showlist")
     public Optional<List<Item>> showItem() {
         return itemService.queryList();
     }
 
-    @RequestMapping("/delete/{itemId}")
-
-
+    @DeleteMapping("/id/{itemId}")
     public R deleteItem(@PathVariable("itemId") Optional<Integer> itemId) {
         if (!itemId.isPresent()) {
             return R.error("操作失败");
@@ -40,8 +35,18 @@ public class ItemController {
     }
 
 
-    @RequestMapping("/merge")
-    public R saveOrUpdateItem(@RequestBody Optional<Item> itemForm) {
+    @PostMapping("/id")
+    public R saveItem(@RequestBody Optional<Item> itemForm) {
+        if (!itemForm.isPresent()) {
+            return R.error("操作失败");
+
+        }
+        itemService.saveOrUpdate(itemForm);
+        log.info("添加或修改试题号" + itemForm.get());
+        return R.ok("操作成功");
+    }
+    @PutMapping("/id")
+    public R updateItem(@RequestBody Optional<Item> itemForm) {
         if (!itemForm.isPresent()) {
             return R.error("操作失败");
 
@@ -51,7 +56,7 @@ public class ItemController {
         return R.ok("操作成功");
     }
 
-    @RequestMapping("/id/{itemId}")
+    @GetMapping("/id/{itemId}")
     public R queryById(@PathVariable("itemId") Optional<Integer> itemId) {
         if (!itemId.isPresent()) {
             return R.error("操作失败");

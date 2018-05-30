@@ -3,12 +3,10 @@ package com.ulovecode.modules.course.controller;
 import com.ulovecode.common.utils.R;
 import com.ulovecode.modules.course.entity.Course;
 import com.ulovecode.modules.course.service.CourseService;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,18 +14,23 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/course")
 @Slf4j
+@Api("课程管理接口")
+@ApiResponses({@ApiResponse(code = 0, message = "正常码"), @ApiResponse(code = 500, message = "服务器处理错误")})
 public class CourseController {
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private CourseService courseService;
 
-    @RequestMapping("/showlist")
+    @ApiOperation(value = "查询所有课程")
+    @GetMapping("/showlist")
     public Optional<List<Course>> showCourse() {
         return courseService.queryList();
     }
 
-    @RequestMapping("/delete/{courseId}")
+    @ApiOperation(value = "删除课程",notes = "根据url的id来制定删除的对象")
+    @ApiImplicitParam( name = "courseId", value ="课程Id", required = true, dataType = "int")
+    @DeleteMapping("/id/{courseId}")
     public R deleteCourse(@PathVariable("courseId") Optional<Integer> courseId) {
         if (!courseId.isPresent()) {
             return R.error("操作失败");
@@ -38,18 +41,32 @@ public class CourseController {
     }
 
 
-    @RequestMapping("/merge")
-    public R saveOrUpdateCourse(@RequestBody Optional<Course> courseForm) {
+    @ApiOperation(value = "添加课程",notes = "传入json课程")
+    @PostMapping("/id")
+    public R saveCourse(@RequestBody  @ApiParam("课程信息") Optional<Course> courseForm) {
         if (!courseForm.isPresent()) {
             return R.error("操作失败");
         }
-        courseService.saveOrUpdate(courseForm);
+        courseService.save(courseForm);
         log.info("添加或修改课程号" + courseForm.get());
         return R.ok("操作成功");
     }
 
-    @RequestMapping("/id/{courseId}")
-    public R queryById(@PathVariable("courseId") Optional<Integer> courseId) {
+    @ApiOperation(value = "修改课程",notes = "传入json课程")
+    @PutMapping("/id")
+    public R updateCourse(@RequestBody  @ApiParam("课程信息") Optional<Course> courseForm) {
+        if (!courseForm.isPresent()) {
+            return R.error("操作失败");
+        }
+        courseService.update(courseForm);
+        log.info("添加或修改课程号" + courseForm.get());
+        return R.ok("操作成功");
+    }
+
+
+    @ApiOperation(value = "根据id查询",notes = "传入url id来查询课程")
+    @GetMapping("/id/{courseId}")
+    public R queryById(@PathVariable("courseId")  @ApiParam("课程id") Optional<Integer> courseId) {
         if (!courseId.isPresent()) {
             return R.error("操作失败");
         }

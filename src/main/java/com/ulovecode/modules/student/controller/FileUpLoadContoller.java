@@ -4,6 +4,7 @@ import com.ulovecode.common.utils.R;
 import com.ulovecode.config.FileConfig;
 import com.ulovecode.config.PhotoConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,7 @@ public class FileUpLoadContoller {
     @Resource
     private FileConfig fileConfig;
 
-    @RequestMapping(value = "/img")
+    @PostMapping(value = "/img")
     public R upload(Optional<MultipartFile> file) {
         if (file.isPresent()) {
             MultipartFile multipartFile = file.get();
@@ -48,29 +49,29 @@ public class FileUpLoadContoller {
     }
 
 
-    @RequestMapping(value = "/batch", method = RequestMethod.POST)
-    public R batchUpload(HttpServletRequest request) {
-        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
-        MultipartFile file = null;
-        BufferedOutputStream stream = null;
-        String path;
-        for (int i = 0; i < files.size(); ++i) {
-            file = files.get(i);
-            if (!file.isEmpty()) {
-                try {
-                    byte[] bytes = file.getBytes();
-                    stream = new BufferedOutputStream(new FileOutputStream(new File(fileConfig.getFullPath()+file.getOriginalFilename())));
-                    stream.write(bytes);
-                    stream.close();
-                } catch (Exception e) {
-                    stream = null;
-
-                    return   R.error("You failed to upload " + i + " => " + e.getMessage());
-                }
-            } else {
-                return   R.error("You failed to upload " + i + " because the file was empty.");
-            }
-        }
-        return R.ok("upload successful");
-    }
+//    @RequestMapping(value = "/batch", method = RequestMethod.POST)
+//    public R batchUpload(HttpServletRequest request) {
+//        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
+//        MultipartFile file = null;
+//        BufferedOutputStream stream = null;
+//        String path;
+//        for (int i = 0; i < files.size(); ++i) {
+//            file = files.get(i);
+//            if (!file.isEmpty()) {
+//                try {
+//                    byte[] bytes = file.getBytes();
+//                    stream = new BufferedOutputStream(new FileOutputStream(new File(fileConfig.getFullPath()+file.getOriginalFilename())));
+//                    stream.write(bytes);
+//                    stream.close();
+//                } catch (Exception e) {
+//                    stream = null;
+//
+//                    return   R.error("You failed to upload " + i + " => " + e.getMessage());
+//                }
+//            } else {
+//                return   R.error("You failed to upload " + i + " because the file was empty.");
+//            }
+//        }
+//        return R.ok("upload successful");
+//    }
 }
