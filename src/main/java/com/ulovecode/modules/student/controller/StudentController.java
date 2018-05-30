@@ -66,7 +66,7 @@ public class StudentController {
             Student studentData = studentOptional.orElseGet(Student::new);
             if (studentData.getPasswd() != null) {
                 if (studentData.getPasswd().equals(student.getPasswd())) {
-                    return R.ok("student", studentData);
+                    return R.ok("data", studentData);
                 }
             }
         }

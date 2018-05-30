@@ -32,7 +32,7 @@ public class UserController {
             if (dbuserInfo.isPresent()) {
                 UserInfo info = dbuserInfo.get();
                 if (info.getPasswd().equals(passwd)) {
-                    return R.ok("userinfo", info);
+                    return R.ok("data", info);
                 }
             }
         }

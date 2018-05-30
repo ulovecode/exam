@@ -40,6 +40,8 @@ public class AnswerController {
     @RequestMapping(value = "/save")
     public R examAnswerSave(@RequestBody  @ApiParam(value = "用户的答案", required = true) ArrayList<PaperAnswer> answers) {
         paperAnswerService.saveBatch(Optional.ofNullable(answers));
+        Optional<Paper> paper = paperService.queryObject(Optional.ofNullable(answers.get(0).getSno()));
+        paper.ifPresent(paper1 -> paperService.update(paper.map(paper2 -> paper2.setPstatus("正考完"))));
         return R.ok("提交答案成功");
     }
 

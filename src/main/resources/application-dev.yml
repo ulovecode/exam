@@ -8,7 +8,7 @@ spring:
         druid:
             initial-size: 10
             max-active: 1000
-            min-idle: 10000
+            min-idle: 100
             max-wait: 60000
             pool-prepared-statements: true
             max-pool-prepared-statement-per-connection-size: 20
