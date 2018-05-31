@@ -28,8 +28,9 @@ public class CourseController {
         return courseService.queryList();
     }
 
-    @ApiOperation(value = "删除课程",notes = "根据url的id来制定删除的对象")
-    @ApiImplicitParam( name = "courseId", value ="课程Id", required = true, dataType = "int")
+    @ApiOperation(value = "" +
+            "",notes = "根据url的id来制定删除的对象")
+    @ApiImplicitParam(paramType="path", name = "courseId", value ="课程Id", required = true, dataType = "int")
     @DeleteMapping("/id/{courseId}")
     public R deleteCourse(@PathVariable("courseId") Optional<Integer> courseId) {
         if (!courseId.isPresent()) {
@@ -65,8 +66,9 @@ public class CourseController {
 
 
     @ApiOperation(value = "根据id查询",notes = "传入url id来查询课程")
+    @ApiImplicitParam(paramType="path",value = "传入课程id",name = "courseId",required = true,dataType = "Integer")
     @GetMapping("/id/{courseId}")
-    public R queryById(@PathVariable("courseId")  @ApiParam("课程id") Optional<Integer> courseId) {
+    public R queryById(@PathVariable("courseId")  Optional<Integer> courseId) {
         if (!courseId.isPresent()) {
             return R.error("操作失败");
         }

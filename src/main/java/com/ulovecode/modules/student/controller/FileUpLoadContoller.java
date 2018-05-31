@@ -3,7 +3,12 @@ package com.ulovecode.modules.student.controller;
 import com.ulovecode.common.utils.R;
 import com.ulovecode.config.FileConfig;
 import com.ulovecode.config.PhotoConfig;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,15 +28,17 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/fileupload")
 @Slf4j
+@Api("上传图片接口")
 public class FileUpLoadContoller {
 
     @Resource
     private PhotoConfig photoConfig;
-    @Resource
-    private FileConfig fileConfig;
+//    @Resource
+//    private FileConfig fileConfig;
 
-    @PostMapping(value = "/img")
-    public R upload(Optional<MultipartFile> file) {
+    @ApiOperation("单个图片上传接口")
+    @PostMapping(value = "/img",consumes = "multipart/*",headers = "content-type="+MediaType.MULTIPART_FORM_DATA_VALUE)
+    public R upload( @ApiParam(value = "上传的文件",required = true) Optional<MultipartFile> file) {
         if (file.isPresent()) {
             MultipartFile multipartFile = file.get();
             String originalFilename = multipartFile.getOriginalFilename();
