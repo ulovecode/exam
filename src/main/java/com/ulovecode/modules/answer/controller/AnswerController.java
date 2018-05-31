@@ -11,10 +11,7 @@ import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +34,7 @@ public class AnswerController {
     @ApiOperation(value = "保存学生提交答案",response = R.class)
 //    @ApiImplicitParam(paramType = "query", name = "anwers", value Zz= "试卷答案集合", required = true, dataType = "ArrayList<PaperAnswer>")
     @ApiResponses({@ApiResponse(code = 0, message = "正常码"), @ApiResponse(code = 500, message = "服务器处理错误")})
-    @RequestMapping(value = "/save")
+    @PostMapping(value = "/save")
     public R examAnswerSave(@RequestBody  @ApiParam(value = "用户的答案", required = true) ArrayList<PaperAnswer> answers) {
         paperAnswerService.saveBatch(Optional.ofNullable(answers));
         Optional<Paper> paper = paperService.queryObject(Optional.ofNullable(answers.get(0).getSno()));
@@ -45,14 +42,14 @@ public class AnswerController {
         return R.ok("提交答案成功");
     }
 
-    @RequestMapping("/presave")
+    @GetMapping("/itemlist")
     public R examItem(Integer paperId) {
         Optional<List<Item>> itemList = itemService.findByPaperId(Optional.ofNullable(paperId));
         return R.ok().put("data", itemList);
     }
 
 
-    @RequestMapping("/examlist")
+    @GetMapping("/examlist")
     public R examlist() {
         List<Paper> papers = paperService.paperListOrderByDate();
         return R.ok("data", papers);

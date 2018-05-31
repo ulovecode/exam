@@ -32,12 +32,12 @@ public class PaperController {
     @Autowired
     private CourseService courseService;
 
-    @RequestMapping("/showlist")
+    @GetMapping("/showlist")
     public Optional<List<Paper>> showPaper() {
         return paperService.queryList();
     }
 
-    @RequestMapping("/delete/{paperId}")
+    @DeleteMapping("/id/{paperId}")
     public R deletePaper(@PathVariable("paperId") Optional<Integer> paperId) {
         if (!paperId.isPresent()) {
             return R.error("操作失败");
@@ -48,17 +48,26 @@ public class PaperController {
     }
 
 
-    @RequestMapping("/merge")
-    public R saveOrUpdatePaper(@RequestBody Optional<Paper> paperForm) {
+    @PostMapping("/id")
+    public R savePaper(@RequestBody Optional<Paper> paperForm) {
         if (!paperForm.isPresent()) {
             return R.error("操作失败");
         }
-        paperService.saveOrUpdate(paperForm);
+        paperService.save(paperForm);
+        log.info("添加或修改试卷号" + paperForm.get());
+        return R.ok("操作成功");
+    }
+    @PutMapping("/id")
+    public R updatePaper(@RequestBody Optional<Paper> paperForm) {
+        if (!paperForm.isPresent()) {
+            return R.error("操作失败");
+        }
+        paperService.update(paperForm);
         log.info("添加或修改试卷号" + paperForm.get());
         return R.ok("操作成功");
     }
 
-    @RequestMapping("/id/{paperId}")
+    @GetMapping("/id/{paperId}")
     public R queryById(@PathVariable("paperId") Optional<Integer> paperId) {
         if (!paperId.isPresent()) {
             return R.error("操作失败");
@@ -74,7 +83,7 @@ public class PaperController {
 
     }
 
-    @RequestMapping("/presave")
+    @GetMapping("/presave")
     public R preSave() {
         Optional<List<Course>> courses = courseService.queryList();
         if (courses.equals(Optional.empty())) {
@@ -83,7 +92,7 @@ public class PaperController {
         return R.ok("course", courses);
     }
 
-    @RequestMapping("/info/{paperId}")
+    @GetMapping("/info/{paperId}")
     public RR examInfoBySno(@PathVariable Optional<Integer> paperId, Optional<String> studentId) {
         Student student = null;
         List<Item> itemList = null;
@@ -102,7 +111,7 @@ public class PaperController {
         return Objects.requireNonNull(RR.ok().dataPut("student", student).dataPut("paper", paper).dataPut("itemList", itemList));
     }
 
-    @RequestMapping("/changestatus")
+    @GetMapping("/changestatus")
     public R changeStatus( Integer paperId) {
         if(paperId == null)  return   R.error("更新失败");
         Optional<Paper> paper = paperService.queryObject(Optional.ofNullable(paperId));
