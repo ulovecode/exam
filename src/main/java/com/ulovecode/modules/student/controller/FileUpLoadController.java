@@ -49,30 +49,31 @@ public class FileUpLoadController {
         return R.error("空文件,无法上传");
     }
 
+    @ApiOperation("多个图片上传接口")
+    @PostMapping(value = "/batch")
+    public R batchUpload(HttpServletRequest request) {
+        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
+        MultipartFile file = null;
+        BufferedOutputStream stream = null;
+        String path;
+        for (int i = 0; i < files.size(); ++i) {
+            file = files.get(i);
+            String originalFilename = file.getOriginalFilename();
+            if (!file.isEmpty()) {
+                try {
+                    byte[] bytes = file.getBytes();
+                    stream = new BufferedOutputStream(new FileOutputStream(new File(photoConfig.getFullPath() + originalFilename)));
+                    stream.write(bytes);
+                    stream.close();
+                } catch (Exception e) {
+                    stream = null;
 
-//    @RequestMapping(value = "/batch", method = RequestMethod.POST)
-//    public R batchUpload(HttpServletRequest request) {
-//        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
-//        MultipartFile file = null;
-//        BufferedOutputStream stream = null;
-//        String path;
-//        for (int i = 0; i < files.size(); ++i) {
-//            file = files.get(i);
-//            if (!file.isEmpty()) {
-//                try {
-//                    byte[] bytes = file.getBytes();
-//                    stream = new BufferedOutputStream(new FileOutputStream(new File(fileConfig.getFullPath()+file.getOriginalFilename())));
-//                    stream.write(bytes);
-//                    stream.close();
-//                } catch (Exception e) {
-//                    stream = null;
-//
-//                    return   R.error("You failed to upload " + i + " => " + e.getMessage());
-//                }
-//            } else {
-//                return   R.error("You failed to upload " + i + " because the file was empty.");
-//            }
-//        }
-//        return R.ok("upload successful");
-//    }
+                    return   R.error("You failed to upload " + i + " => " + e.getMessage());
+                }
+            } else {
+                return   R.error("You failed to upload " + i + " because the file was empty.");
+            }
+        }
+        return R.ok("upload successful");
+    }
 }
