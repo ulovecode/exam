@@ -3,16 +3,10 @@ package com.ulovecode.modules.student.controller;
 import com.ulovecode.common.utils.R;
 import com.ulovecode.config.FileConfig;
 import com.ulovecode.config.PhotoConfig;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -29,7 +23,8 @@ import java.util.Optional;
 @RequestMapping("/fileupload")
 @Slf4j
 @Api("上传图片接口")
-public class FileUpLoadContoller {
+@ApiResponses({@ApiResponse(code = 0, message = "正常码"), @ApiResponse(code = 500, message = "服务器处理错误")})
+public class FileUpLoadController {
 
     @Resource
     private PhotoConfig photoConfig;
@@ -38,14 +33,13 @@ public class FileUpLoadContoller {
 
     @ApiOperation("单个图片上传接口")
     @PostMapping(value = "/img",consumes = "multipart/*",headers = "content-type="+MediaType.MULTIPART_FORM_DATA_VALUE)
-    public R upload( @ApiParam(value = "上传的文件",required = true) Optional<MultipartFile> file) {
-        if (file.isPresent()) {
-            MultipartFile multipartFile = file.get();
+    public R upload(@RequestParam("file") @ApiParam(value = "上传的文件",required = true) MultipartFile multipartFile) {
+        if (!multipartFile.isEmpty()) {
             String originalFilename = multipartFile.getOriginalFilename();
             String path = photoConfig.getFullPath() + originalFilename;
-            File filepath = new File(path);
+            File MultipartFilepath = new File(path);
             try {
-                multipartFile.transferTo(filepath);
+                multipartFile.transferTo(MultipartFilepath);
             } catch (IOException e) {
                 e.printStackTrace();
                 return R.error("上传文件出错误了");
