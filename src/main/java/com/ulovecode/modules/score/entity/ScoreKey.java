@@ -1,24 +1,33 @@
 package com.ulovecode.modules.score.entity;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Objects;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class ScoreKey {
     private Integer paperId;
 
     private String sno;
 
-    public Integer getPaperId() {
-        return paperId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ScoreKey scoreKey = (ScoreKey) o;
+        return Objects.equals(paperId, scoreKey.paperId) &&
+                Objects.equals(sno, scoreKey.sno);
     }
 
-    public void setPaperId(Integer paperId) {
-        this.paperId = paperId;
-    }
+    @Override
+    public int hashCode() {
 
-    public String getSno() {
-        return sno;
-    }
-
-    public void setSno(String sno) {
-        this.sno = sno == null ? null : sno.trim();
+        return Objects.hash(paperId, sno);
     }
 }

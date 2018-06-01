@@ -1,31 +1,25 @@
 package com.ulovecode.common.scheduled;
 
-import com.ulovecode.modules.answer.entity.PaperAnswer;
-import com.ulovecode.modules.answer.entity.PaperAnswerKey;
 import com.ulovecode.modules.answer.service.PaperAnswerService;
 import com.ulovecode.modules.item.entity.Item;
 import com.ulovecode.modules.item.service.ItemService;
-import com.ulovecode.modules.paper.entity.Paper;
 import com.ulovecode.modules.paper.service.PaperService;
 import com.ulovecode.modules.score.entity.Score;
+import com.ulovecode.modules.score.entity.ScoreKey;
 import com.ulovecode.modules.score.service.ScoreService;
-import com.ulovecode.modules.student.entity.Student;
 import com.ulovecode.modules.student.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.jws.Oneway;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -66,8 +60,25 @@ public class ScheduledTaskService {
     public void countScore() {
         if (lock.tryLock()) {
             try {
+                HashMap<ScoreKey, Score> map = new HashMap<>();
                 paperAnswerService.queryList().ifPresent(answerList -> answerList.forEach(paperAnswer -> {
                     Integer paperId = paperAnswer.getPaperId();
+                    String sno = paperAnswer.getSno();
+                    ScoreKey scoreKey = new ScoreKey(paperId, sno);
+                    Score saveScore = null;
+                    if (!map.containsKey(scoreKey)) {
+                        saveScore = new Score();
+                        saveScore.setPaperId(paperId);
+                        saveScore.setSno(sno);
+                        map.put(scoreKey, saveScore);
+
+                    } else {
+                        saveScore = map.get(scoreKey);
+                        map.put(scoreKey, saveScore);
+                    }
+
+
+                    //多选题用户答案集合
                     HashSet<String> userSets = Arrays.stream(paperAnswer.getAnswer().split(","))
                             .filter(s -> !s.equals(""))
                             .collect(Collectors.toCollection(HashSet::new));
@@ -75,30 +86,28 @@ public class ScheduledTaskService {
                     Optional<Item> item = itemService.queryObject(Optional.of(itemId));
                     Optional<String[]> strings = item.map(Item::getAnswer)
                             .map(s -> s.split(","));
+                    boolean isTrue = true;
                     if (strings.isPresent()) {
                         String[] answers = strings.get();
+                        //标准答案集合
                         HashSet<String> answerSets = Arrays.stream(answers)
                                 .filter(s -> !s.equals(""))
                                 .collect(Collectors.toCollection(HashSet::new));
-                        int score = 0;
-                        int correct = 0;
-                        int ansum = 0;
                         for (String userSet : userSets) {
-                            if (answerSets.contains(userSet)) {
-                                score += 20;
-                                correct += 1;
+                            if (!answerSets.contains(userSet)) {
+                                isTrue = false;
                             }
-                            ansum += 1;
                         }
-                        Score saveScore = new Score();
-                        saveScore.setScore(score);
-                        saveScore.setPaperId(paperId);
-                        saveScore.setSno(paperAnswer.getSno());
-                        saveScore.setAnsnum(ansum);
-                        saveScore.setCorrect(correct);
-                        scoreService.save(Optional.of(saveScore));
                     }
+                    if (isTrue) {
+                        saveScore.setCorrect(saveScore.getCorrect() + 1);
+                        saveScore.setScore(saveScore.getScore() + 20);
+                    }
+                    saveScore.setAnsnum(saveScore.getAnsnum()+1);
                 }));
+                map.forEach((scoreKey, score) -> {
+                    scoreService.save(Optional.of(score));
+                });
             } catch (Exception e) {
             } finally {
                 lock.unlock();
