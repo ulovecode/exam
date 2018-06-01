@@ -1,44 +1,110 @@
 package com.ulovecode.common.scheduled;
 
+import com.ulovecode.modules.answer.entity.PaperAnswer;
+import com.ulovecode.modules.answer.entity.PaperAnswerKey;
+import com.ulovecode.modules.answer.service.PaperAnswerService;
+import com.ulovecode.modules.item.entity.Item;
+import com.ulovecode.modules.item.service.ItemService;
+import com.ulovecode.modules.paper.entity.Paper;
 import com.ulovecode.modules.paper.service.PaperService;
+import com.ulovecode.modules.score.entity.Score;
+import com.ulovecode.modules.score.service.ScoreService;
+import com.ulovecode.modules.student.entity.Student;
+import com.ulovecode.modules.student.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.jws.Oneway;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Date;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
 public class ScheduledTaskService {
 
-	private Lock lock = new ReentrantLock();
+    private Lock lock = new ReentrantLock();
 
-	@Autowired
-	PaperService paperService;
+    @Autowired
+    PaperService paperService;
+    @Autowired
+    PaperAnswerService paperAnswerService;
+    @Autowired
+    StudentService studentService;
+    @Autowired
+    ItemService itemService;
 
-	  @Scheduled(fixedRate = 10000) //1
-	  public void changePstatus() {
-		  if (lock.tryLock()) {
-			  try {
-				paperService.ChangePstatus();
-			  } catch (Exception e) {
-				  e.printStackTrace();
-			  } finally {
-				  lock.unlock();
-			  }
-		  }
+    @Autowired
+    ScoreService scoreService;
 
-	   }
+    @Scheduled(fixedRate = 10000) //1
+    public void changePstatus() {
+        if (lock.tryLock()) {
+            try {
+                paperService.ChangePstatus();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
 
+    }
 
-
-
+    /**
+     * 自动计算每个学生分数
+     */
+    @Scheduled(fixedRate = 100000)
+    public void countScore() {
+        if (lock.tryLock()) {
+            try {
+                paperAnswerService.queryList().ifPresent(answerList -> answerList.forEach(paperAnswer -> {
+                    Integer paperId = paperAnswer.getPaperId();
+                    HashSet<String> userSets = Arrays.stream(paperAnswer.getAnswer().split(","))
+                            .filter(s -> !s.equals(""))
+                            .collect(Collectors.toCollection(HashSet::new));
+                    Integer itemId = paperAnswer.getItemId();
+                    Optional<Item> item = itemService.queryObject(Optional.of(itemId));
+                    Optional<String[]> strings = item.map(Item::getAnswer)
+                            .map(s -> s.split(","));
+                    if (strings.isPresent()) {
+                        String[] answers = strings.get();
+                        HashSet<String> answerSets = Arrays.stream(answers)
+                                .filter(s -> !s.equals(""))
+                                .collect(Collectors.toCollection(HashSet::new));
+                        int score = 0;
+                        int correct = 0;
+                        int ansum = 0;
+                        for (String userSet : userSets) {
+                            if (answerSets.contains(userSet)) {
+                                score += 20;
+                                correct += 1;
+                            }
+                            ansum += 1;
+                        }
+                        Score saveScore = new Score();
+                        saveScore.setScore(score);
+                        saveScore.setPaperId(paperId);
+                        saveScore.setSno(paperAnswer.getSno());
+                        saveScore.setAnsnum(ansum);
+                        saveScore.setCorrect(correct);
+                        scoreService.save(Optional.of(saveScore));
+                    }
+                }));
+            } catch (Exception e) {
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
 
 
 /*

@@ -1,5 +1,6 @@
 package com.ulovecode.modules.score.entity;
 
+
 public class ScoreKey {
     private Integer paperId;
 
