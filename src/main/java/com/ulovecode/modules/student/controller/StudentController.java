@@ -1,5 +1,8 @@
 package com.ulovecode.modules.student.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.ulovecode.common.utils.R;
 import com.ulovecode.modules.student.entity.Student;
 import com.ulovecode.modules.student.service.StudentService;
@@ -82,6 +85,7 @@ public class StudentController {
     @ApiImplicitParam(value = "学生信息",name = "student",dataType = "Student",required = true,paramType = "body")
 
     @PostMapping("/login")
+    @JsonView(Student.WithNoPassword.class)
     public R login(@RequestBody Student student) {
         if (student == null) {
             return R.error("请填写账号和密码");
